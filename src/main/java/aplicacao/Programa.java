@@ -1,18 +1,39 @@
 package aplicacao;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+import com.mysql.cj.x.protobuf.MysqlxCrud.Find;
+
 import dominio.Pessoa;
 
 public class Programa {
 
 	public static void main(String[] args) {
 		
-		Pessoa ps = new Pessoa(1, "Bruno", "bruno@gmail.com");
-		Pessoa ps2 = new Pessoa(2, "Roberto", "roberto@gmail.com");
-		Pessoa ps3 = new Pessoa(3, "Laura", "laura@gmail.com");
-		System.out.println(ps);
-		System.out.println(ps2);
-		System.out.println(ps3);
-
+	
+		
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("exemplo-jpa");
+		EntityManager em = emf.createEntityManager();
+		
+		Pessoa pf = em.find(Pessoa.class, 2);
+		em.getTransaction().begin();
+		em.remove(pf);
+		em.getTransaction().commit();
+		
+		System.out.println("Pronto!");
+		
+		System.out.println(pf);
+		
+		em.close();
+		emf.close();
+		
+		
+		
+		
+		
+		
 	}
 
 }
